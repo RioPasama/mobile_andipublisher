@@ -76,5 +76,20 @@ class Nav {
       page: () => const TransactionScreen(),
       binding: TransactionControllerBinding(),
     ),
+    GetPage(
+      name: Routes.ITEM_DETAIL,
+      page: () => const ItemDetailScreen(),
+      binding: ItemDetailControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.CHECKOUT,
+      page: () => const CheckoutScreen(),
+      binding: CheckoutControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.CHECKOUT,
+      page: () => const CheckoutScreen(),
+      binding: CheckoutControllerBinding(),
+    ),
   ];
 }

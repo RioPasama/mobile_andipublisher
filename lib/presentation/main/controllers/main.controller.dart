@@ -7,17 +7,18 @@ class MainController extends GetxController {
   final NavController navController = Get.put(NavController());
   final UtilsController utilsController = Get.put(UtilsController());
 
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void onInit() {
     navController.pageControllerPrimaryMain = PageController();
-    utilsController.getDataUser();
     super.onInit();
   }
 
   @override
   void onReady() {
+    utilsController.getDataUser();
+    scaffoldKey = GlobalKey<ScaffoldState>();
     super.onReady();
   }
 

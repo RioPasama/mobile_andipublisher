@@ -6,6 +6,6 @@ class BannerService {
     final result = await MainService().getAPI(url: 'Banner');
 
     return List<BannerModel>.from(((result != null) ? result['data'] : [])
-        .map((e) => BannerModel.fromMap(e)));
+        .map((e) => BannerModel.fromJson(e)));
   }
 }

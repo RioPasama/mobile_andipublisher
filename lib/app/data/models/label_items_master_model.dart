@@ -11,12 +11,12 @@ class LabelItemsMasterModel {
     required this.value,
   });
 
-  factory LabelItemsMasterModel.fromMap(Map<String, dynamic> json) =>
+  factory LabelItemsMasterModel.fromJson(Map<String, dynamic> json) =>
       LabelItemsMasterModel(
         label: json['label'],
         link: json['link'],
         value: List<ItemMasterModel>.from(
             ((json['value'] != null) ? json['value'] : [])
-                .map((e) => ItemMasterModel.fromMap(e))),
+                .map((e) => ItemMasterModel.fromJson(e))),
       );
 }

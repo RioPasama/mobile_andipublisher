@@ -17,7 +17,8 @@ class ItemMasterModel {
     required this.statusStok,
   });
 
-  factory ItemMasterModel.fromMap(Map<String, dynamic> json) => ItemMasterModel(
+  factory ItemMasterModel.fromJson(Map<String, dynamic> json) =>
+      ItemMasterModel(
         idBarang: json["id_barang"],
         slugBarang: json["slug_barang"],
         gambar1: json["gambar1"],

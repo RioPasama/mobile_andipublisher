@@ -11,7 +11,7 @@ class BannerModel {
     required this.linkBanner,
   });
 
-  factory BannerModel.fromMap(Map<String, dynamic> json) => BannerModel(
+  factory BannerModel.fromJson(Map<String, dynamic> json) => BannerModel(
         idbanner: json['idbanner'],
         namaBanner: json['nama_banner'],
         gambarBanner: json['gambar_banner'],

@@ -1,7 +1,7 @@
 import 'package:andipublisher/app/data/models/banner_model.dart';
 import 'package:andipublisher/app/data/models/label_items_master_model.dart';
 import 'package:andipublisher/app/data/services/banner_service.dart';
-import 'package:andipublisher/app/data/services/label_items_master_service.dart';
+import 'package:andipublisher/app/data/services/items_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -23,7 +23,6 @@ class HomeController extends GetxController {
 
   @override
   void onReady() async {
-    await fetchDataHome();
     super.onReady();
   }
 
@@ -33,27 +32,25 @@ class HomeController extends GetxController {
   }
 
   Future<void> onRefresh() async {
-    await fetchDataHome();
-  }
-
-  Future<void> fetchDataHome() async {
     await fetchBanner();
     await newLabelItemsMaster();
     await bestSallerLabelItemsMaster();
   }
 
-  Future<void> fetchBanner() async {
+  Future<List<BannerModel>> fetchBanner() async {
     bannerModel.value = await BannerService.getBanner();
+    return bannerModel;
   }
 
-  Future<void> newLabelItemsMaster() async {
+  Future<LabelItemsMasterModel> newLabelItemsMaster() async {
     newLabelItemsMasterModel.value =
-        await LabelItemsMasterService.getItemsMaster(link: 'ItemsMaster/new');
+        await ItemsService.getItemsMaster(link: 'new');
+    return newLabelItemsMasterModel.value!;
   }
 
-  Future<void> bestSallerLabelItemsMaster() async {
+  Future<LabelItemsMasterModel> bestSallerLabelItemsMaster() async {
     bestSallerLabelItemsMasterModel.value =
-        await LabelItemsMasterService.getItemsMaster(
-            link: 'ItemsMaster/bestSaller');
+        await ItemsService.getItemsMaster(link: 'bestSaller');
+    return bestSallerLabelItemsMasterModel.value!;
   }
 }

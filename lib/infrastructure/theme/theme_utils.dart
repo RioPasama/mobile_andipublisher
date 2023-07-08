@@ -10,8 +10,10 @@ Color colorBlack = const Color.fromARGB(255, 38, 38, 38);
 Color colorTextPrimary = colorPrimary;
 Color colorTextGrey = Colors.grey.shade400;
 Color colorTextAlert = colorRad;
+Color colorTextWhite = Colors.white;
 
-BoxShadow boxShadow = BoxShadow(color: colorGrey, blurRadius: 4);
+BoxShadow boxShadow =
+    BoxShadow(color: colorGrey, blurRadius: 6, offset: const Offset(4, 4));
 BorderRadius borderRadius = BorderRadius.circular(16);
 BorderRadius borderRadiusTheme = BorderRadius.circular(14);
 

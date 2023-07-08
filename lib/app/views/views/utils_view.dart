@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 TextFormField textFromFiled({
   required TextEditingController controller,
@@ -33,5 +34,25 @@ TextFormField textFromFiled({
       labelStyle: TextStyle(fontSize: 14, color: Colors.grey.shade600),
     ),
     validator: (value) => validator(value),
+  );
+}
+
+Widget quantityInput(
+    {required RxInt value,
+    required RxInt maxValue,
+    required Function() onTapMinus,
+    required Function() onTapPlus}) {
+  return Obx(
+    () => Row(
+      children: [
+        TextButton(
+            onPressed: (value.value > 1) ? onTapMinus : null,
+            child: const Text('-')),
+        Text(value.toString()),
+        TextButton(
+            onPressed: (value.value < maxValue.value) ? onTapPlus : null,
+            child: const Text('+'))
+      ],
+    ),
   );
 }

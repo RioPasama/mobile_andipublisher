@@ -12,6 +12,8 @@ class MainScreen extends GetView<MainController> {
   const MainScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    Get.put(MainController());
+
     return Obx(
       () => DefaultTabController(
         length: 3,
@@ -32,6 +34,7 @@ class MainScreen extends GetView<MainController> {
                                     .utilsController.userModel.fotoUser,
                                 height: 80,
                                 width: 80,
+                                margin: const EdgeInsets.only(bottom: 8),
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     boxShadow: [boxShadow]),
