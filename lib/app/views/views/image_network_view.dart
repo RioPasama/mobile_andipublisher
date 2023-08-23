@@ -14,18 +14,19 @@ class ImageNetworkView extends GetView {
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
   final AlignmentGeometry? alignment;
-  const ImageNetworkView(
-      {required this.url,
-      this.height,
-      this.width,
-      this.margin,
-      this.padding,
-      this.alignment,
-      this.child,
-      this.decoration,
-      this.fit = BoxFit.cover,
-      Key? key})
-      : super(key: key);
+  const ImageNetworkView({
+    required this.url,
+    this.height,
+    this.width,
+    this.margin,
+    this.padding,
+    this.alignment,
+    this.child,
+    this.decoration,
+    this.fit = BoxFit.cover,
+    Key? key,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(

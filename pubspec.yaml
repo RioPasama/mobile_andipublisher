@@ -23,6 +23,7 @@ dependencies:
   lottie: ^2.4.0
   carousel_slider: ^4.2.1
   readmore: ^2.2.0
+  flutter_inappwebview: ^5.7.2+3
 
 dev_dependencies: 
   flutter_gen_runner: ^5.3.1

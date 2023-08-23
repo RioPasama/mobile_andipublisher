@@ -31,8 +31,9 @@ class CheckoutScreen extends GetView<CheckoutController> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: controller.checkoutModel.dataCheckout.length,
-              itemBuilder: (context, index) =>
-                  _dataItms(data: controller.checkoutModel.dataCheckout[index]),
+              itemBuilder: (context, index) => _dataItms(
+                  data: controller.checkoutModel.dataCheckout[index],
+                  index: index),
             ),
             //Voucher
             _voucher(),
@@ -69,10 +70,18 @@ class CheckoutScreen extends GetView<CheckoutController> {
                     'Total Belanja',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Text(
-                    0.parceRp(),
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold),
+                  Obx(
+                    () => Text(
+                      ((controller.hargaTotalProduct.value +
+                                  controller.checkoutModel.dataProfile
+                                      .biayaPenanganan +
+                                  controller.ongkoskirim.value) -
+                              (controller.diskonOngkoskirim.value +
+                                  controller.diskonTotalProduct.value))
+                          .parceRp(),
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
                   )
                 ],
               ),
@@ -81,7 +90,8 @@ class CheckoutScreen extends GetView<CheckoutController> {
               SizedBox(
                 width: Get.width / 2,
                 child: ElevatedButton(
-                    onPressed: () {}, child: const Text('Pilih Pembayaran')),
+                    onPressed: () => controller.onTapSelectPayment(),
+                    child: const Text('Pilih Pembayaran')),
               )
             ],
           )
@@ -95,56 +105,53 @@ class CheckoutScreen extends GetView<CheckoutController> {
       margin: const EdgeInsets.symmetric(vertical: 4),
       padding: EdgeInsets.symmetric(vertical: 4, horizontal: marginHorizontal),
       color: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Ringkasan Belanja',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                  'Total Harga (${controller.checkoutModel.dataCheckout.length} Barang)'),
-              Text(controller.priceSubTotalItmes
-                  .reduce((value, element) => value + element)
-                  .parceRp())
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('Total Diskon Barang'),
-              Text(
-                  '-${controller.checkoutModel.dataProfile.biayaPenanganan.parceRp()}')
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('Total Ongkos Kirim'),
-              Text(controller.checkoutModel.dataProfile.biayaPenanganan
-                  .parceRp())
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('Total Diskon Ongkos Kirim'),
-              Text(
-                  '-${controller.checkoutModel.dataProfile.biayaPenanganan.parceRp()}')
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('Biaya Penanganan'),
-              Text(controller.checkoutModel.dataProfile.biayaPenanganan
-                  .parceRp())
-            ],
-          ),
-        ],
+      child: Obx(
+        () => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Ringkasan Belanja',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                    'Total Harga (${controller.checkoutModel.dataCheckout.length} Barang)'),
+                Text(controller.hargaTotalProduct.value.parceRp())
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Total Diskon Barang'),
+                Text('-${controller.diskonTotalProduct.value.parceRp()}')
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Total Ongkos Kirim'),
+                Text(controller.ongkoskirim.value.parceRp())
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Total Diskon Ongkos Kirim'),
+                Text('-${controller.diskonOngkoskirim.value.parceRp()}')
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Biaya Penanganan'),
+                Text(controller.checkoutModel.dataProfile.biayaPenanganan
+                    .parceRp())
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -189,7 +196,7 @@ class CheckoutScreen extends GetView<CheckoutController> {
     );
   }
 
-  Container _dataItms({required DataCheckout data}) {
+  Container _dataItms({required DataCheckout data, required int index}) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4),
       padding: EdgeInsets.symmetric(vertical: 4, horizontal: marginHorizontal),
@@ -283,32 +290,61 @@ class CheckoutScreen extends GetView<CheckoutController> {
           const Divider(),
           //Pilih Pengiriman
           InkWell(
-            onTap: () => Get.bottomSheet(_bottomSheetCourier(),
-                isScrollControlled: true),
+            onTap: () async {
+              await controller.fetchCourier(index: index);
+              if (controller.courierModel.isEmpty) {
+                return;
+              }
+              Get.bottomSheet(_bottomSheetCourier(), isScrollControlled: true);
+            },
             child: Container(
-              margin: const EdgeInsets.symmetric(vertical: 4),
-              padding: EdgeInsets.symmetric(
-                  vertical: 14, horizontal: marginHorizontal),
-              decoration: BoxDecoration(
-                  borderRadius: borderRadius,
-                  border: Border.all(color: colorGrey)),
-              child: Row(
-                children: [
-                  const Icon(Ionicons.archive_outline),
-                  SizedBox(width: marginHorizontal),
-                  const Text(
-                    'Pilih Pengiriman',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const Spacer(),
-                  Icon(
-                    Ionicons.chevron_forward,
-                    size: 18,
-                    color: colorGrey,
-                  )
-                ],
-              ),
-            ),
+                margin: const EdgeInsets.symmetric(vertical: 4),
+                padding: EdgeInsets.symmetric(
+                    vertical: 14, horizontal: marginHorizontal),
+                decoration: BoxDecoration(
+                    borderRadius: borderRadius,
+                    border: Border.all(color: colorGrey)),
+                child: Obx(
+                  () => (controller.selectCourier.value?.kode == null)
+                      ? Row(
+                          children: [
+                            const Icon(Ionicons.archive_outline),
+                            SizedBox(width: marginHorizontal),
+                            const Text(
+                              'Pilih Pengiriman',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            const Spacer(),
+                            Icon(
+                              Ionicons.chevron_forward,
+                              size: 18,
+                              color: colorGrey,
+                            )
+                          ],
+                        )
+                      : Row(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${controller.selectCourier.value?.layanan} ${controller.selectCourier.value?.produk} (${controller.selectCourier.value?.harga.parceRp()})',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                    'Estimasi ${controller.selectCourier.value?.estimasi} hari')
+                              ],
+                            ),
+                            const Spacer(),
+                            Icon(
+                              Ionicons.chevron_forward,
+                              size: 18,
+                              color: colorGrey,
+                            )
+                          ],
+                        ),
+                )),
           ),
           //subtotal
           Obx(
@@ -383,9 +419,22 @@ class CheckoutScreen extends GetView<CheckoutController> {
               ),
             ],
           ),
-          ListView(
+          ListView.builder(
             shrinkWrap: true,
-            children: [],
+            itemCount: controller.courierModel.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                titleTextStyle: TextStyle(fontSize: 14, color: colorBlack),
+                selected: controller.courierModel[index].kode ==
+                    controller.selectCourier.value?.kode,
+                onTap: () => controller.onTapSelectCourier(
+                    data: controller.courierModel[index]),
+                title: Text(
+                    '${controller.courierModel[index].layanan} ${controller.courierModel[index].produk} (${controller.courierModel[index].harga.parceRp()})'),
+                subtitle: Text(
+                    'Estimasi ${controller.courierModel[index].estimasi} hari'),
+              );
+            },
           ),
         ],
       ),
@@ -486,15 +535,15 @@ class CheckoutScreen extends GetView<CheckoutController> {
           ),
           const Divider(),
           Text(
-            controller.selectAlamatUser.labelAlamatUser,
+            controller.selectAlamatUser.value!.labelAlamatUser,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           Text(
-            '${controller.selectAlamatUser.namaPenerimaUser} (${controller.selectAlamatUser.teleponUser})',
+            '${controller.selectAlamatUser.value!.namaPenerimaUser} (${controller.selectAlamatUser.value!.teleponUser})',
             style: const TextStyle(fontWeight: FontWeight.w200),
           ),
           Text(
-            controller.selectAlamatUser.alamatUser,
+            controller.selectAlamatUser.value!.alamatUser,
             style: const TextStyle(fontWeight: FontWeight.w200, fontSize: 12),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,

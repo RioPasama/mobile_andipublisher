@@ -91,5 +91,15 @@ class Nav {
       page: () => const CheckoutScreen(),
       binding: CheckoutControllerBinding(),
     ),
+    GetPage(
+      name: Routes.PAYMENT,
+      page: () => const PaymentScreen(),
+      binding: PaymentControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.TRANSACTION_DETAIL,
+      page: () => const TransactionDetailScreen(),
+      binding: TransactionDetailControllerBinding(),
+    ),
   ];
 }
