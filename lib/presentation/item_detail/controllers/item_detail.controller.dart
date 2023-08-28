@@ -1,6 +1,7 @@
 import 'package:andipublisher/app/controllers/utils_controller.dart';
 import 'package:andipublisher/app/data/models/checkout_model.dart';
 import 'package:andipublisher/app/data/models/item_master_detail_model.dart';
+import 'package:andipublisher/app/data/services/cart_service.dart';
 import 'package:andipublisher/app/data/services/items_service.dart';
 import 'package:andipublisher/app/data/services/transaction_service.dart';
 import 'package:andipublisher/app/views/views/dialog_view.dart';
@@ -63,7 +64,18 @@ class ItemDetailController extends GetxController {
     Get.toNamed(Routes.CHECKOUT, arguments: checkoutModel);
   }
 
-  Future<void> onTapAddCart() async {}
+  Future<void> onTapAddCart() async {
+    bool status = await CartService.postAddCart(
+      idBarang: itemMasterDetailModel.value!.idBarang,
+      idCabang: warehouse.value!.idcabang,
+      qty: quantityOrder.value,
+    );
+
+    if (status) {
+      //Menutup bottomSheetOrder
+      Get.back();
+    }
+  }
 
   void onTapBottomSheetOrder({required bool isBuy}) {
     //check user is Login
