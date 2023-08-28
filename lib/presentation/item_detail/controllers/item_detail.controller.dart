@@ -72,6 +72,8 @@ class ItemDetailController extends GetxController {
     );
 
     if (status) {
+      utilsController.getCountCart();
+
       //Menutup bottomSheetOrder
       Get.back();
     }

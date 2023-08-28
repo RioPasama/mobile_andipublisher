@@ -1,3 +1,4 @@
+import 'package:andipublisher/app/views/views/badge_cart_view.dart';
 import 'package:andipublisher/app/views/views/image_network_view.dart';
 import 'package:andipublisher/infrastructure/theme/theme_utils.dart';
 import 'package:andipublisher/presentation/screens.dart';
@@ -160,10 +161,9 @@ class MainScreen extends GetView<MainController> {
             ],
           ),
           actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Ionicons.cart_outline),
-            )
+            (controller.utilsController.isLogin.value)
+                ? BadgeCartView()
+                : const SizedBox(),
           ],
         );
       default:

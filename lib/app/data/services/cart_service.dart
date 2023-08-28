@@ -6,11 +6,11 @@ class CartService {
       {required String idBarang,
       required String idCabang,
       required int qty}) async {
-    Map<String, dynamic> body = {
+    Map<String, String> body = {
       'idBarang': idBarang,
       'idCabang': idCabang,
       'idUser': MainService().utilsController.userModel.idUser,
-      'qty': qty
+      'qty': qty.toString()
     };
 
     final result = await MainService().postAPI(url: 'Cart/add', body: body);
@@ -25,7 +25,7 @@ class CartService {
 
     final result = await MainService().getAPI(url: 'Cart/count', body: body);
 
-    return result['data'];
+    return result['data'] ?? '';
   }
 
   static Future<List<DataCartModel>> getDataListCart() async {

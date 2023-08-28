@@ -16,6 +16,7 @@ class Routes {
   static const RE_VERIFY = '/re-verify';
   static const SPLASH = '/splash';
   static const TRANSACTION = '/transaction';
-  static const WISHLIST = '/wishlist';
   static const TRANSACTION_DETAIL = '/transaction-detail';
+  static const WISHLIST = '/wishlist';
+  static const CART = '/cart';
 }

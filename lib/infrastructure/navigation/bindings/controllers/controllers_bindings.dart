@@ -1,3 +1,4 @@
+export 'package:andipublisher/infrastructure/navigation/bindings/controllers/cart.controller.binding.dart'; 
 export 'package:andipublisher/infrastructure/navigation/bindings/controllers/checkout.controller.binding.dart'; 
 export 'package:andipublisher/infrastructure/navigation/bindings/controllers/forgot_password.controller.binding.dart'; 
 export 'package:andipublisher/infrastructure/navigation/bindings/controllers/home.controller.binding.dart';

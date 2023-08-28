@@ -1,3 +1,4 @@
+import 'package:andipublisher/app/views/views/badge_cart_view.dart';
 import 'package:andipublisher/infrastructure/theme/theme_utils.dart';
 import 'package:andipublisher/presentation/item_detail/views/content_view.dart';
 import 'package:flutter/material.dart';
@@ -75,20 +76,22 @@ class ItemDetailScreen extends GetView<ItemDetailController> {
         ),
         const Spacer(),
         IconButton(
+          padding: const EdgeInsets.only(top: 14),
           onPressed: () {},
           icon: const Icon(Ionicons.share_social_outline),
           color: colorBlack,
         ),
         IconButton(
+          padding: const EdgeInsets.only(top: 14),
           onPressed: () {},
           icon: const Icon(Ionicons.heart_outline),
           color: colorBlack,
         ),
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Ionicons.cart_outline),
-          color: colorBlack,
-        ),
+        (controller.utilsController.isLogin.value)
+            ? BadgeCartView(
+                color: colorBlack,
+              )
+            : const SizedBox(),
       ],
     );
   }

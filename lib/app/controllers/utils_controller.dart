@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:andipublisher/app/data/models/user_model.dart';
+import 'package:andipublisher/app/data/services/cart_service.dart';
 import 'package:andipublisher/app/views/views/dialog_view.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ class UtilsController extends GetxController {
 
   RxBool isLogin = false.obs;
   late UserModel userModel;
+  RxString countCart = '0'.obs;
 
   Future<void> checkConnection() async {
     final Connectivity connectivity = Connectivity();
@@ -78,5 +80,9 @@ class UtilsController extends GetxController {
     isLogin.value = userModel.idUser.isNotEmpty;
 
     log('isLogin $isLogin');
+  }
+
+  Future<void> getCountCart() async {
+    countCart.value = await CartService.getCartCount();
   }
 }

@@ -101,5 +101,10 @@ class Nav {
       page: () => const TransactionDetailScreen(),
       binding: TransactionDetailControllerBinding(),
     ),
+    GetPage(
+      name: Routes.CART,
+      page: () => const CartScreen(),
+      binding: CartControllerBinding(),
+    ),
   ];
 }
