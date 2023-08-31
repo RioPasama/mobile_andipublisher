@@ -5,6 +5,34 @@ import 'package:andipublisher/app/data/services/items_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+/// HomeController
+///
+/// This class is a controller for the home page.
+
+/// Properties
+///
+/// * `scrollController`: The scroll controller for the home page.
+/// * `bannerModel`: The list of banner models.
+/// * `newLabelItemsMasterModel`: The new label items master model.
+/// * `bestSallerLabelItemsMasterModel`: The best seller label items master model.
+/// * `currentBanner`: The current banner index.
+
+/// Methods
+///
+/// * `onRefresh`: Handles the refresh event.
+/// * `fetchBanner`: Fetches the list of banners.
+/// * `newLabelItemsMaster`: Fetches the new label items master.
+/// * `bestSallerLabelItemsMaster`: Fetches the best seller label items master.
+
+/// Usage
+///
+/// To use this class, first you need to import it. Then, you can instantiate it like this:
+///
+///
+/// HomeController controller = HomeController();
+///
+/// This code will instantiate a HomeController object.
+
 class HomeController extends GetxController {
   final ScrollController scrollController = ScrollController();
 
